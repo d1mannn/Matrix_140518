@@ -3,7 +3,7 @@
 
 
 template<typename type>
-Matrix<type>::Matrix(size_t cols, size_t rows)
+Matrix<type>::Matrix(size_t rows, size_t cols)
 {
 	this->cols = cols;
 	this->rows = rows;
@@ -12,7 +12,7 @@ Matrix<type>::Matrix(size_t cols, size_t rows)
 		els[i] = new type[cols];
 	for (int i = 0; i < rows; i++)
 	{
-		for (int i = 0; i < cols; i++)
+		for (int j = 0; j < cols; j++)
 		{
 			els[i][j] = 0;
 		}
@@ -20,7 +20,7 @@ Matrix<type>::Matrix(size_t cols, size_t rows)
 }
 
 template<typename type>
-Matrix<type>::Matrix(const Matrix & obj)
+Matrix<type>::Matrix(const Matrix<type> & obj)
 {
 	this->cols = obj.cols;
 	this->rows = obj.rows;
@@ -29,7 +29,7 @@ Matrix<type>::Matrix(const Matrix & obj)
 		this->els[i] = new type[cols];
 	for (int i = 0; i < rows; i++)
 	{
-		for (int i = 0; i < cols; i++)
+		for (int j = 0; j < cols; j++)
 		{
 			this->els[i][j] = obj.els[i][j];
 		}
@@ -37,10 +37,10 @@ Matrix<type>::Matrix(const Matrix & obj)
 }
 
 template<typename type>
-Matrix<type>::Matrix(type * arr, size_t size, size_t rows)
+Matrix<type>::Matrix(type * arr, size_t size, size_t rows, size_t cols)
 {	
 	this->rows = rows;
-	this->cols = ceil(size / rows);
+	this->cols = cols;
 	this->els = new type*[rows];
 	for (int i = 0; i < rows; i++)
 		this->els[i] = new type[cols];
@@ -52,6 +52,28 @@ Matrix<type>::Matrix(type * arr, size_t size, size_t rows)
 				els[i][j] = 0;
 			else
 				els[i][j] = arr[k++];
+
+}
+
+template<typename type>
+type &Matrix<type>::operator=(type n)
+{	
+	//MyArray& operator=(MyArray &arrInt2) //перегрузка оператора присваивания
+	//{
+	//	delete[] numbers;
+
+	//	sizeOfArray = arrInt2.sizeOfArray;
+
+	//	numbers = new int[sizeOfArray];
+	//	for (int i = 0; i < sizeOfArray; i++)
+	//	{
+	//		numbers[i] = arrInt2.numbers[i];
+	//	}
+
+	//	return *this;
+	//}
+	this->els = n;
+	return *this;
 }
 
 template<typename type>
@@ -60,18 +82,18 @@ void Matrix<type>::printmatrix()
 	cout << els;
 }
 
-template<typename type>
-void Matrix<type>::operator<<(Matrix &obj)
-{
-	for (int i = 0; i <obj.rows ; i++)
-	{
-		for (int i = 0; i < obj.cols; i++)
-		{
-			cout << obj.els[i][j] << "\t";
-		}
-		cout << endl;
-	}
-}
+//template<typename type>
+//void Matrix<type>::operator<<(Matrix &obj)
+//{
+//	for (int i = 0; i <obj.rows ; i++)
+//	{
+//		for (int i = 0; i < obj.cols; i++)
+//		{
+//			cout << obj.els[i][j] << "\t";
+//		}
+//		cout << endl;
+//	}
+//}
 
 template<typename type>
 Matrix<type>::~Matrix()
@@ -82,4 +104,37 @@ Matrix<type>::~Matrix()
 	}
 	delete[]els;
 }
+
+template<typename type>
+ostream & operator<<(ostream & os, Matrix<type> a)
+{
+	for (int i = 0; i < a.rows; i++)
+	{
+		for (int j = 0; j < a.cols; j++)
+		{
+			cout << a.els[i][j] << "\t";
+		}
+		cout << endl;
+	}
+	// TODO: insert return statement here
+	return os;
+}
+
+template<typename type>
+void MatrixFillig(Matrix<type> & obj, size_t rows, size_t cols)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			obj.els[i][j] = -20 + rand() % 40;
+		}
+	}
+}
+
+
+
+
+
+
 
